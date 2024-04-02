@@ -1,0 +1,28 @@
+{
+  "name": "nuxt-app",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@asteasolutions/zod-to-openapi": "^6.4.0",
+    "@azoom/eslint-config": "^0.2.0",
+    "@azoom/nuxt-zof": "../nuxt-zof",
+    "drizzle-orm": "^0.30.4",
+    "drizzle-zod": "^0.5.1",
+    "mysql2": "^3.9.3",
+    "nuxt": "^3.11.1",
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0",
+    "zod-openapi": "^2.14.0"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.20.14",
+    "eslint": "^8.57.0"
+  }
+}
