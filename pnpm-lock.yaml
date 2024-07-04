@@ -21,6 +21,9 @@ importers:
       eslint:
         specifier: ^9.6.0
         version: 9.6.0
+      jiti:
+        specifier: ^1.21.6
+        version: 1.21.6
 
 packages:
 
