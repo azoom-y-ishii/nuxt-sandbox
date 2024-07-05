@@ -11,8 +11,11 @@
   },
   "dependencies": {
     "@azoom/eslint-config": "^0.4.1",
+    "lodash-es": "^4.17.21",
     "nuxt": "^3.12.3",
-    "vue": "latest"
+    "type-fest": "^4.21.0",
+    "vue": "latest",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "eslint": "^9.6.0",
