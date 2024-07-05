@@ -11,8 +11,12 @@
   },
   "dependencies": {
     "@azoom/eslint-config": "^0.4.1",
+    "@nuxtjs/i18n": "^8.3.1",
+    "free-email-domains": "^1.2.14",
     "nuxt": "^3.12.3",
-    "vue": "latest"
+    "nuxt-zod-i18n": "^1.8.1",
+    "vue": "latest",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "eslint": "^9.6.0",

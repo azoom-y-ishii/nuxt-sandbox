@@ -1,4 +1,4 @@
-# Nuxt 3 Sandbox
+# Nuxt 3 Zod i18n
 
 ## Setup
 
