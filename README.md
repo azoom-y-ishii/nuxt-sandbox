@@ -1,4 +1,8 @@
-# Nuxt 3 Sandbox
+# Nuxt 3 Validation Sandbox
+
+- It’s alpha version. so some errors may be found.
+- The demo uses primitive input element. so attrs function needs { primitive: true } option
+- It has only lazy  validation mode. It means you can see the results of validation on blur.
 
 ## Setup
 
