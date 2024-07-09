@@ -9,16 +9,23 @@ type PathArray = (string | number)[]
 type ToStringArray<T extends (string | number)[]> = {
   [P in keyof T]: `${T[P]}`;
 }
-type PathOrArray<TPathString, TPathStringArray, TPathArray extends PathArray> = TPathString | TPathArray & (TPathArray & Check<ToStringArray<TPathArray>, TPathStringArray>)
+type PathOrArray<
+  TSchema extends ZodSchema,
+  TPathArray extends PathArray,
+  TPathString extends string = Exclude<Paths<z.infer<TSchema>>, number>,
+  TPathStringArray = Split<TPathString, '.'>,
+> = TPathString | TPathArray & (Check<ToStringArray<TPathArray>, TPathStringArray>)
 
 type ValidationOptions = {
   mode: 'lazy' // Currently only support lazy. 'aggressive' | 'passive' | 'lazy' | 'eager like vee validate
 }
 
+// ,
+//   TPathString extends string = Exclude<Paths<z.infer<TSchema>>, number>,
+//   ,
+
 export const useValidation = <
   const TSchema extends ZodSchema,
-  TPathString extends string = Exclude<Paths<z.infer<TSchema>>, never | number>,
-  TPathStringArray = Split<TPathString, '.'>,
 >(
   valueRef: Ref,
   schema: TSchema,
@@ -26,13 +33,13 @@ export const useValidation = <
 ) => {
   let issues: ZodIssue[] = []
 
-  const isInvalid = <const TPathArray extends PathArray>(pathOrArray?: PathOrArray<TPathString, TPathStringArray, TPathArray>) => {
+  const isInvalid = <const TPathArray extends PathArray>(pathOrArray?: PathOrArray<TSchema, TPathArray>) => {
     const path = pathOrArray
       ? (typeof pathOrArray === 'string' ? pathOrArray : pathOrArray.join('.'))
       : undefined
 
     // TOOD more simplify
-    if (opts.mode === 'lazy' && !isTouched(path as PathOrArray<TPathString, TPathStringArray, TPathArray>)) { return false }
+    if (opts.mode === 'lazy' && !isTouched(path as PathOrArray<TSchema, TPathArray>)) { return false }
 
     if (!path) {
       return Boolean(issues.length)
@@ -44,15 +51,15 @@ export const useValidation = <
     })
   }
 
-  const isValid = <const TPathArray extends PathArray>(pathOrArray?: PathOrArray<TPathString, TPathStringArray, TPathArray>) => {
+  const isValid = <const TPathArray extends PathArray>(pathOrArray?: PathOrArray<TSchema, TPathArray>) => {
     return !isInvalid(pathOrArray)
   }
 
-  const listErrors = <const TPathArray extends PathArray>(pathOrArray: PathOrArray<TPathString, TPathStringArray, TPathArray>) => {
+  const listErrors = <const TPathArray extends PathArray>(pathOrArray: PathOrArray<TSchema, TPathArray>) => {
     const path = typeof pathOrArray === 'string' ? pathOrArray : pathOrArray.join('.')
 
     // TOOD more simplify
-    if (opts.mode === 'lazy' && !isTouched(path as PathOrArray<TPathString, TPathStringArray, TPathArray>)) { return [] }
+    if (opts.mode === 'lazy' && !isTouched(path as PathOrArray<TSchema, TPathArray>)) { return [] }
 
     return issues.filter((issue) => {
       const issuePath = issue.path.join('.')
@@ -60,14 +67,14 @@ export const useValidation = <
     })?.map(x => x.message).flat()
   }
 
-  const oneError = <const TPathArray extends PathArray>(...pathOrArrays: PathOrArray<TPathString, TPathStringArray, TPathArray>[]) => {
+  const oneError = <const TPathArray extends PathArray>(...pathOrArrays: PathOrArray<TSchema, TPathArray>[]) => {
     const errors = pathOrArrays.map(listErrors).flat()
     return errors.length ? errors[0] : null
   }
 
   const stateMap = new WeakMap()
 
-  const checkState = <const TPathArray extends PathArray>(stateName: string, pathOrArray?: PathOrArray<TPathString, TPathStringArray, TPathArray>) => {
+  const checkState = <const TPathArray extends PathArray>(stateName: string, pathOrArray?: PathOrArray<TSchema, TPathArray>) => {
     const path = pathOrArray
       ? (typeof pathOrArray === 'string' ? pathOrArray.split('.') : pathOrArray as string[])
       : undefined
@@ -99,7 +106,7 @@ export const useValidation = <
   }
 
   const attrs = <const TPathArray extends PathArray>(
-    pathOrArray: PathOrArray<TPathString, TPathStringArray, TPathArray>,
+    pathOrArray: PathOrArray<TSchema, TPathArray>,
     options: AttrsOptions = { primitive: false },
   ) => {
     const path = typeof pathOrArray === 'string' ? pathOrArray.split('.') : pathOrArray
@@ -124,7 +131,7 @@ export const useValidation = <
     }
   }
 
-  const touch = <const TPathArray extends PathArray>(pathOrArray?: PathOrArray<TPathString, TPathStringArray, TPathArray>) => {
+  const touch = <const TPathArray extends PathArray>(pathOrArray?: PathOrArray<TSchema, TPathArray>) => {
     const path = pathOrArray
       ? (typeof pathOrArray === 'string' ? pathOrArray.split('.') : pathOrArray) as string[]
       : undefined
