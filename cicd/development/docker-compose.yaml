@@ -1,0 +1,18 @@
+name: nuxt-firebase
+services:
+  firebase-emulator:
+    container_name: nuxt-firebase-emulator
+    image: andreysenov/firebase-tools
+    command: /bin/bash -c "firebase emulators:start --import .data --export-on-exit"
+    ports:
+      - '127.0.0.1:9099:9099'
+      - '127.0.0.1:9000:9000'
+      - '127.0.0.1:8085:8085'
+      - '127.0.0.1:9199:9199'
+      - '127.0.0.1:4000:4000'
+      - '127.0.0.1:8180:8180'
+      - '127.0.0.1:5001:5001'
+      - '127.0.0.1:9005:9005'
+      - '127.0.0.1:4400:4400'
+    volumes:
+      - ./firebase:/home/node
