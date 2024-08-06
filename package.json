@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "@azoom/eslint-config": "^0.4.1",
+    "@azoom/nuxt-zof": "0.3.7",
     "nuxt": "^3.12.3",
-    "vue": "latest"
+    "vue": "latest",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "eslint": "^9.6.0",

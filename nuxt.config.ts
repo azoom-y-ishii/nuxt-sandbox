@@ -1,3 +1,5 @@
+import { createResolver } from 'nuxt/kit'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -5,4 +7,15 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
+  modules: [
+    [
+      '@azoom/nuxt-zof',
+      {
+        validation: {
+          request: true,
+          response: true,
+        },
+      },
+    ],
+  ],
 })
