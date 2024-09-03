@@ -12,18 +12,18 @@
 </script>
 
 <script setup lang="ts">
-const emit = defineEmits<{
+defineEmits<{
   save: [message: string]
   update: [count: number, message: string]
 }>()
 
-const { $operate } = useOperator(emit)
+const { emit } = useScopedEmit()
 
 const onSave = () => {
-  $operate('save', 'saving from test')
+  emit('save', 'saving from test')
 }
 
 const onUpdate = () => {
-  $operate('update', 1, 'updating from test')
+  emit('update', 1, 'updating from test')
 }
 </script>

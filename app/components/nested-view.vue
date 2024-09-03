@@ -5,18 +5,17 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits<{
+defineEmits<{
   save: [message: string]
   update: [count: number, message: string]
 }>()
-
-const { $operate } = useOperator(emit)
+const { emit } = useScopedEmit()
 
 const onSave = () => {
-  $operate('save', 'saving from nested')
+  emit('save', 'saving from nested')
 }
 
 const onUpdate = () => {
-  $operate('update', 1, 'updating from nested')
+  emit('update', 1, 'updating from nested')
 }
 </script>
